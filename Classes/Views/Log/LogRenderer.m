@@ -16,6 +16,7 @@
 #define ITALIC_ATTR             (1 << 25)
 #define TEXT_COLOR_ATTR         (1 << 24)
 #define BACKGROUND_COLOR_ATTR   (1 << 23)
+#define EMAIL_ATTR              (1 << 22)
 #define BACKGROUND_COLOR_MASK   (0xF0)
 #define TEXT_COLOR_MASK         (0x0F)
 
@@ -101,6 +102,11 @@ static NSString* renderRange(NSString* body, attr_t attr, int start, int len)
         // address
         content = logEscape(content);
         return [NSString stringWithFormat:@"<span class=\"address\" oncontextmenu=\"on_addr()\">%@</span>", content];
+    }
+    else if (attr & EMAIL_ATTR) {
+        // email
+        content = logEscape(content);
+        return [NSString stringWithFormat:@"<span class=\"email\" oncontextmenu=\"on_email()\">%@</span>", content];
     }
     else if (attr & CHANNEL_NAME_ATTR) {
         // channel name
@@ -380,6 +386,24 @@ static NSString* renderRange(NSString* body, attr_t attr, int start, int len)
         
         if (isClear(attrBuf, URL_ATTR, r.location, r.length)) {
             setFlag(attrBuf, ADDRESS_ATTR, r.location, r.length);
+        }
+        
+        start = NSMaxRange(r) + 1;
+    }
+  
+    //
+    // email
+    //
+    start = 0;
+    while (start < len) {
+        NSRange r = [body rangeOfEmailStart:start];
+        if (r.location == NSNotFound) {
+            break;
+        }
+        
+        if (isClear(attrBuf, URL_ATTR, r.location, r.length) &&
+            isClear(attrBuf, ADDRESS_ATTR, r.location, r.length)) {
+            setFlag(attrBuf, EMAIL_ATTR, r.location, r.length);
         }
         
         start = NSMaxRange(r) + 1;

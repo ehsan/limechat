@@ -486,6 +486,48 @@ BOOL isUnicharDigit(unichar c)
     return r;
 }
 
+- (NSRange)rangeOfEmail
+{
+  return [self rangeOfEmailStart:0];
+}
+
+- (NSRange)rangeOfEmailStart:(int)start
+{
+  int len = self.length;
+  if (len <= start) return NSMakeRange(NSNotFound, 0);
+  
+  static OnigRegexp* regex = nil;
+  if (!regex) {
+    NSString* pattern = @"[a-zA-Z0-9._%+-]+@([a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,6}";
+    regex = [[OnigRegexp compile:pattern] retain];
+  }
+  
+  OnigResult* result = [regex search:self start:start];
+  if (!result) return NSMakeRange(NSNotFound, 0);
+  
+  NSRange r = result.bodyRange;
+  
+  int prev = r.location - 1;
+  if (0 <= prev && prev < len) {
+    // check previous character
+    UniChar c = [self characterAtIndex:prev];
+    if (IsWordLetter(c)) {
+      return [self rangeOfAddressStart:NSMaxRange(r)];
+    }
+  }
+  
+  int next = NSMaxRange(r);
+  if (next < len) {
+    // check next character
+    UniChar c = [self characterAtIndex:next];
+    if (IsWordLetter(c)) {
+      return [self rangeOfAddressStart:NSMaxRange(r)];
+    }
+  }
+  
+  return r;
+}
+
 - (NSRange)rangeOfChannelName
 {
     return [self rangeOfChannelNameStart:0];

@@ -40,6 +40,9 @@
 - (NSRange)rangeOfAddress;
 - (NSRange)rangeOfAddressStart:(int)start;
 
+- (NSRange)rangeOfEmail;
+- (NSRange)rangeOfEmailStart:(int)start;
+
 - (NSRange)rangeOfChannelName;
 - (NSRange)rangeOfChannelNameStart:(int)start;
 
