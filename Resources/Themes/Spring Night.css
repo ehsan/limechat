@@ -6,7 +6,7 @@ html {
 }
 body {}
 
-.url { color: #99cf50; }
+.url, .email { color: #99cf50; }
 .address {}
 .highlight {
   font-size: 160%;

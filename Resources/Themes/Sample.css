@@ -34,7 +34,7 @@ a {}
   background-color: #eee;
 }
 
-.url { word-break: break-all; }
+.url, .email { word-break: break-all; }
 .address { text-decoration: underline; word-break: break-all; }
 .highlight { color: #f0f; font-weight: bold; }
 .time { color: #048; }

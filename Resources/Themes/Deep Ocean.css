@@ -26,7 +26,7 @@ a { color: inherit; }
 .line[alternate=odd] {}
 .line[highlight=true] {}
 
-.url { word-break: break-all; }
+.url, .email { word-break: break-all; }
 .address { text-decoration: underline; word-break: break-all; }
 .highlight { color: #ffc58a; font-size: 130%; font-weight: normal; }
 .time { color: #3175b9; }

@@ -69,7 +69,7 @@ a {
 
 /* Special spans */
 
-.url {
+.url, .email {
 	word-break: break-all;
 }
 .address {
