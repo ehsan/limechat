@@ -85,6 +85,12 @@ static NSString* renderRange(NSString* body, attr_t attr, int start, int len)
         content = logEscape(content);
         return [NSString stringWithFormat:@"<a href=\"%@\" class=\"url\" oncontextmenu=\"on_url()\">%@</a>", link, content];
     }
+    else if (attr & EMAIL_ATTR) {
+        // email
+        NSString* link = [NSString stringWithFormat:@"mailto:%@", content];
+        content = logEscape(content);
+        return [NSString stringWithFormat:@"<a href=\"%@\" class=\"email\" oncontextmenu=\"on_email()\">%@</a>", link, content];
+    }
     else if (attr & KEYWORD_ATTR) {
         // keyword
         content = logEscape(content);
@@ -102,11 +108,6 @@ static NSString* renderRange(NSString* body, attr_t attr, int start, int len)
         // address
         content = logEscape(content);
         return [NSString stringWithFormat:@"<span class=\"address\" oncontextmenu=\"on_addr()\">%@</span>", content];
-    }
-    else if (attr & EMAIL_ATTR) {
-        // email
-        content = logEscape(content);
-        return [NSString stringWithFormat:@"<span class=\"email\" oncontextmenu=\"on_email()\">%@</span>", content];
     }
     else if (attr & CHANNEL_NAME_ATTR) {
         // channel name
