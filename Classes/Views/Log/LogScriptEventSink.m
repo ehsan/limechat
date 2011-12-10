@@ -41,6 +41,7 @@
     if (sel == @selector(onDblClick:)
         || sel == @selector(shouldStopDoubleClick:)
         || sel == @selector(setUrl:)
+        || sel == @selector(setEmail:)
         || sel == @selector(setAddr:)
         || sel == @selector(setNick:)
         || sel == @selector(setChan:)
@@ -113,6 +114,11 @@
 - (void)setUrl:(NSString*)s
 {
     [policy setUrl:[s gtm_stringByUnescapingFromHTML]];
+}
+
+- (void)setEmail:(NSString*)s
+{
+    [policy setEmail:[s gtm_stringByUnescapingFromHTML]];
 }
 
 - (void)setAddr:(NSString*)s
